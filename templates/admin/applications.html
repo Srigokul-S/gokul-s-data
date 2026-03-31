@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Applications — Admin Panel{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-file-earmark-text me-2"></i>All Applications</h1>
+    <p class="mb-0 opacity-75">Monitor all student placement applications</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="card">
+    <div class="card-header">
+      <i class="bi bi-file-earmark-text me-2"></i>Application Records
+      <span class="badge badge-approved ms-2">{{ applications|length }}</span>
+    </div>
+    <div class="card-body p-0">
+      {% if applications %}
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>ID</th><th>Student</th><th>Email</th>
+              <th>Job Title</th><th>Company</th><th>Applied On</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in applications %}
+            <tr>
+              <td style="color:var(--text-secondary);">#{{ a.id }}</td>
+              <td class="fw-600">{{ a.student_name }}</td>
+              <td style="color:var(--text-secondary);font-size:0.83rem;">{{ a.student_email }}</td>
+              <td>{{ a.job_title }}</td>
+              <td style="color:var(--text-secondary);">{{ a.company_name }}</td>
+              <td style="color:var(--text-secondary);font-size:0.82rem;">{{ a.applied_date[:10] }}</td>
+              <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon"><i class="bi bi-file-earmark-text"></i></div>
+        <p>No applications submitted yet.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Company Dashboard — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h1 class="mb-1"><i class="bi bi-building me-2"></i>{{ company.name }}</h1>
+      <p class="mb-0 opacity-75">Company Dashboard</p>
+    </div>
+    <a href="{{ url_for('company_create_drive') }}" class="btn btn-light fw-600">
+      <i class="bi bi-plus-circle me-2"></i>New Placement Drive
+    </a>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row g-4">
+
+    <!-- Company Profile -->
+    <div class="col-lg-4">
+      <div class="card h-auto">
+        <div class="card-header"><i class="bi bi-info-circle me-2"></i>Company Profile</div>
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <div class="avatar mx-auto mb-3"
+                 style="width:64px;height:64px;font-size:1.8rem;background:rgba(6,182,212,0.15);color:#22d3ee;">
+              {{ company.name[0].upper() }}
+            </div>
+            <h5 class="fw-700 mb-1">{{ company.name }}</h5>
+            <span class="badge badge-approved">Approved</span>
+          </div>
+          <ul class="info-list">
+            <li>
+              <span class="info-label"><i class="bi bi-envelope me-1"></i>Email</span>
+              <span class="info-value">{{ company.email }}</span>
+            </li>
+            <li>
+              <span class="info-label"><i class="bi bi-globe me-1"></i>Website</span>
+              <span class="info-value">
+                {% if company.website %}
+                  <a href="{{ company.website }}" target="_blank" style="color:var(--primary-light);">{{ company.website }}</a>
+                {% else %}—{% endif %}
+              </span>
+            </li>
+            <li>
+              <span class="info-label"><i class="bi bi-person-vcard me-1"></i>HR Contact</span>
+              <span class="info-value">{{ company.hr_contact or '—' }}</span>
+            </li>
+            <li>
+              <span class="info-label"><i class="bi bi-briefcase me-1"></i>Drives</span>
+              <span class="info-value fw-600" style="color:var(--primary-light);">{{ drives|length }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drives list -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-briefcase me-2"></i>My Placement Drives</span>
+          <span class="badge badge-approved">{{ drives|length }} total</span>
+        </div>
+        <div class="card-body p-0">
+          {% if drives %}
+            {% for d in drives %}
+            <div class="drive-card card m-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                  <div>
+                    <h5 class="fw-700 mb-1">{{ d.job_title }}</h5>
+                    <div class="d-flex gap-2 flex-wrap align-items-center mb-2">
+                      <span class="badge badge-{{ d.status|lower }}">{{ d.status }}</span>
+                      <small style="color:var(--text-secondary);">
+                        <i class="bi bi-calendar me-1"></i>Deadline: {{ d.deadline }}
+                      </small>
+                      <small style="color:var(--text-secondary);">
+                        <i class="bi bi-people me-1"></i>{{ d.app_count }} applicant(s)
+                      </small>
+                    </div>
+                    <p class="mb-0" style="color:var(--text-secondary);font-size:0.88rem;">
+                      {{ d.job_desc[:150] }}{% if d.job_desc|length > 150 %}…{% endif %}
+                    </p>
+                  </div>
+                </div>
+                <div class="d-flex gap-2 mt-3 flex-wrap">
+                  <a href="{{ url_for('company_drive_applications', did=d.id) }}"
+                     class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-people me-1"></i>View Applicants
+                  </a>
+                  {% if d.status != 'Closed' %}
+                  <a href="{{ url_for('company_edit_drive', did=d.id) }}"
+                     class="btn btn-sm btn-warning">
+                    <i class="bi bi-pencil me-1"></i>Edit
+                  </a>
+                  <form method="POST" action="{{ url_for('company_close_drive', did=d.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-secondary"
+                            onclick="return confirm('Close this drive?')">
+                      <i class="bi bi-x-circle me-1"></i>Close
+                    </button>
+                  </form>
+                  {% endif %}
+                  <form method="POST" action="{{ url_for('company_delete_drive', did=d.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Delete this drive permanently?')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+          <div class="empty-state m-3">
+            <div class="empty-icon"><i class="bi bi-briefcase"></i></div>
+            <p>No drives created yet.</p>
+            <a href="{{ url_for('company_create_drive') }}" class="btn btn-primary mt-2">
+              <i class="bi bi-plus-circle me-2"></i>Create Your First Drive
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

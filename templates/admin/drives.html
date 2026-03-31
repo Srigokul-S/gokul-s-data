@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Placement Drives — Admin Panel{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-briefcase me-2"></i>Placement Drives</h1>
+    <p class="mb-0 opacity-75">Review, approve, and manage placement drives</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="card">
+    <div class="card-header">
+      <i class="bi bi-briefcase me-2"></i>All Drives
+      <span class="badge badge-approved ms-2">{{ drives|length }}</span>
+    </div>
+    <div class="card-body p-0">
+      {% if drives %}
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>ID</th><th>Job Title</th><th>Company</th><th>Deadline</th>
+              <th>Applications</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in drives %}
+            <tr>
+              <td style="color:var(--text-secondary);">#{{ d.id }}</td>
+              <td class="fw-600">{{ d.job_title }}</td>
+              <td style="color:var(--text-secondary);">{{ d.company_name }}</td>
+              <td style="color:var(--text-secondary);font-size:0.85rem;">{{ d.deadline }}</td>
+              <td>
+                <span class="badge" style="background:rgba(79,70,229,0.2);color:#818cf8;">
+                  <i class="bi bi-people me-1"></i>{{ d.app_count }}
+                </span>
+              </td>
+              <td><span class="badge badge-{{ d.status|lower }}">{{ d.status }}</span></td>
+              <td>
+                <div class="d-flex gap-1 flex-wrap">
+                  {% if d.status == 'Pending' %}
+                  <form method="POST" action="{{ url_for('admin_approve_drive', did=d.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-success" title="Approve">
+                      <i class="bi bi-check-lg me-1"></i>Approve
+                    </button>
+                  </form>
+                  {% elif d.status == 'Approved' %}
+                  <form method="POST" action="{{ url_for('admin_reject_drive', did=d.id) }}" class="d-inline">
+                    <button class="btn btn-sm btn-secondary" title="Revoke Approval">
+                      <i class="bi bi-x-lg me-1"></i>Revoke
+                    </button>
+                  </form>
+                  {% endif %}
+                  <form method="POST" action="{{ url_for('admin_delete_drive', did=d.id) }}"
+                        class="d-inline" onsubmit="return confirm('Delete this drive?')">
+                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon"><i class="bi bi-briefcase"></i></div>
+        <p>No placement drives found.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

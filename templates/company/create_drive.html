@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Create Placement Drive — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-plus-circle me-2"></i>Create Placement Drive</h1>
+    <p class="mb-0 opacity-75">Post a new job opportunity for students</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+      <div class="card">
+        <div class="card-header"><i class="bi bi-briefcase me-2"></i>Drive Details</div>
+        <div class="card-body p-4">
+          <form method="POST" action="{{ url_for('company_create_drive') }}">
+
+            <div class="mb-3">
+              <label class="form-label" for="job_title">Job Title <span class="text-danger">*</span></label>
+              <input type="text" name="job_title" id="job_title" class="form-control"
+                     placeholder="e.g. Software Engineer Intern" required/>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="job_desc">Job Description <span class="text-danger">*</span></label>
+              <textarea name="job_desc" id="job_desc" class="form-control" rows="5"
+                        placeholder="Describe the role, responsibilities, tech stack, location…" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="eligibility">Eligibility Criteria <span class="text-danger">*</span></label>
+              <textarea name="eligibility" id="eligibility" class="form-control" rows="3"
+                        placeholder="e.g. B.Tech/B.E. CSE/IT, CGPA ≥ 7.0, No active backlogs…" required></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="deadline">Application Deadline <span class="text-danger">*</span></label>
+              <input type="date" name="deadline" id="deadline" class="form-control" required/>
+            </div>
+
+            <div class="p-3 rounded-3 mb-4" style="background:rgba(79,70,229,0.08);border:1px solid rgba(79,70,229,0.2);">
+              <small style="color:var(--primary-light);">
+                <i class="bi bi-info-circle me-1"></i>
+                The drive will be in <strong>Pending</strong> status until approved by the admin.
+                Only approved drives are visible to students.
+              </small>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary flex-fill btn-lg fw-600">
+                <i class="bi bi-send me-2"></i>Submit Drive
+              </button>
+              <a href="{{ url_for('company_dashboard') }}" class="btn btn-secondary btn-lg">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

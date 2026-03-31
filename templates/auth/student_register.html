@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Student Registration — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="hero-login">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row justify-content-center py-5">
+      <div class="col-lg-6 col-md-8">
+        <div class="auth-card">
+          <div class="text-center mb-4">
+            <div style="font-size:2.5rem;">🎓</div>
+            <h2 class="fw-700 mt-2 mb-1">Student Registration</h2>
+            <p style="color:var(--text-secondary);font-size:0.88rem;">Create your placement portal account</p>
+          </div>
+
+          <form method="POST" action="{{ url_for('student_register') }}" enctype="multipart/form-data">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label" for="s_name">Full Name <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" name="name" id="s_name" class="form-control"
+                         placeholder="John Doe" required/>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="s_phone">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input type="text" name="phone" id="s_phone" class="form-control"
+                         placeholder="+91 9876543210"/>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="s_email">Email Address <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" name="email" id="s_email" class="form-control"
+                         placeholder="student@college.edu" required/>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="s_pwd">Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input type="password" name="password" id="s_pwd" class="form-control"
+                         placeholder="Min 6 characters" required minlength="6"/>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="s_cpwd">Confirm Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                  <input type="password" name="confirm_password" id="s_cpwd" class="form-control"
+                         placeholder="Repeat password" required/>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="s_resume">Resume (PDF / DOC)</label>
+                <input type="file" name="resume" id="s_resume" class="form-control"
+                       accept=".pdf,.doc,.docx"/>
+                <div class="form-text" style="color:var(--text-secondary);font-size:0.77rem;">
+                  Optional — max 5 MB. You can also upload later from your profile.
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg mt-4 fw-600">
+              <i class="bi bi-person-check me-2"></i>Create Account
+            </button>
+          </form>
+
+          <div class="divider"></div>
+          <div class="text-center" style="font-size:0.87rem;color:var(--text-secondary);">
+            Already registered?
+            <a href="{{ url_for('login') }}" class="text-decoration-none" style="color:var(--primary-light);">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

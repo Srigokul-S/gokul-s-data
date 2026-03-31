@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Edit Company — Admin Panel{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-pencil me-2"></i>Edit Company</h1>
+    <p class="mb-0 opacity-75">Update company account details</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card">
+        <div class="card-header"><i class="bi bi-building me-2"></i>Company #{{ company.id }}</div>
+        <div class="card-body p-4">
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label" for="ec_name">Company Name</label>
+              <input type="text" name="name" id="ec_name" class="form-control"
+                     value="{{ company.name }}" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="ec_email">Email</label>
+              <input type="email" name="email" id="ec_email" class="form-control"
+                     value="{{ company.email }}" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="ec_web">Website</label>
+              <input type="url" name="website" id="ec_web" class="form-control"
+                     value="{{ company.website or '' }}"/>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="ec_hr">HR Contact</label>
+              <input type="text" name="hr_contact" id="ec_hr" class="form-control"
+                     value="{{ company.hr_contact or '' }}"/>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary flex-fill">
+                <i class="bi bi-save me-2"></i>Save Changes
+              </button>
+              <a href="{{ url_for('admin_companies') }}" class="btn btn-secondary flex-fill">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

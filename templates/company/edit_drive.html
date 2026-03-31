@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Edit Drive — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-pencil me-2"></i>Edit Placement Drive</h1>
+    <p class="mb-0 opacity-75">Update drive details (requires re-approval)</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+      <div class="card">
+        <div class="card-header"><i class="bi bi-briefcase me-2"></i>Drive #{{ drive.id }}</div>
+        <div class="card-body p-4">
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label" for="ed_title">Job Title</label>
+              <input type="text" name="job_title" id="ed_title" class="form-control"
+                     value="{{ drive.job_title }}" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="ed_desc">Job Description</label>
+              <textarea name="job_desc" id="ed_desc" class="form-control" rows="5" required>{{ drive.job_desc }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="ed_elig">Eligibility Criteria</label>
+              <textarea name="eligibility" id="ed_elig" class="form-control" rows="3" required>{{ drive.eligibility }}</textarea>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="ed_dl">Application Deadline</label>
+              <input type="date" name="deadline" id="ed_dl" class="form-control"
+                     value="{{ drive.deadline }}" required/>
+            </div>
+            <div class="p-3 rounded-3 mb-4" style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);">
+              <small style="color:#fbbf24;">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Editing the drive will reset its status to <strong>Pending</strong> and require admin re-approval.
+              </small>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary flex-fill btn-lg fw-600">
+                <i class="bi bi-save me-2"></i>Save Changes
+              </button>
+              <a href="{{ url_for('company_dashboard') }}" class="btn btn-secondary btn-lg">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

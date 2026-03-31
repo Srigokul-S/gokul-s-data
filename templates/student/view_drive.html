@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}{{ drive.job_title }} — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="mb-1">{{ drive.job_title }}</h1>
+    <p class="mb-0 opacity-75"><i class="bi bi-building me-1"></i>{{ drive.company_name }}</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row g-4">
+    <!-- Drive Details -->
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header"><i class="bi bi-file-text me-2"></i>Job Description</div>
+        <div class="card-body" style="line-height:1.8;color:var(--text-secondary);">
+          {{ drive.job_desc }}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="bi bi-check-circle me-2"></i>Eligibility Criteria</div>
+        <div class="card-body" style="line-height:1.8;color:var(--text-secondary);">
+          {{ drive.eligibility }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header"><i class="bi bi-info-circle me-2"></i>Drive Info</div>
+        <div class="card-body">
+          <ul class="info-list">
+            <li>
+              <span class="info-label">Company</span>
+              <span class="info-value fw-600">{{ drive.company_name }}</span>
+            </li>
+            <li>
+              <span class="info-label">Website</span>
+              <span class="info-value">
+                {% if drive.website %}
+                  <a href="{{ drive.website }}" target="_blank" style="color:var(--primary-light);">Visit</a>
+                {% else %}—{% endif %}
+              </span>
+            </li>
+            <li>
+              <span class="info-label">HR Contact</span>
+              <span class="info-value">{{ drive.hr_contact or '—' }}</span>
+            </li>
+            <li>
+              <span class="info-label">Deadline</span>
+              <span class="info-value fw-600" style="color:#fbbf24;">{{ drive.deadline }}</span>
+            </li>
+            <li>
+              <span class="info-label">Status</span>
+              <span class="info-value"><span class="badge badge-approved">Open</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Apply action -->
+      <div class="card">
+        <div class="card-body text-center p-4">
+          {% if already_applied %}
+            <div class="mb-3" style="font-size:2rem;">✅</div>
+            <h6 class="fw-700 mb-1">Already Applied</h6>
+            <p style="color:var(--text-secondary);font-size:0.85rem;">
+              You have applied to this drive. Track your status on the dashboard.
+            </p>
+            <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary w-100">
+              <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+            </a>
+          {% else %}
+            <div class="mb-3" style="font-size:2rem;">🚀</div>
+            <h6 class="fw-700 mb-2">Ready to Apply?</h6>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:1rem;">
+              Make sure you meet the eligibility criteria before applying.
+            </p>
+            <form method="POST" action="{{ url_for('student_apply', did=drive.id) }}">
+              <button type="submit" class="btn btn-primary w-100 btn-lg fw-600">
+                <i class="bi bi-send me-2"></i>Apply Now
+              </button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary w-100">
+          <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Placement Portal{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="mb-1"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h1>
+    <p class="mb-0 opacity-75">Placement Cell Management Panel</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+
+  <!-- STAT CARDS -->
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stat-card stat-primary">
+        <div class="card-body">
+          <span class="stat-icon"><i class="bi bi-people"></i></span>
+          <div class="stat-value">{{ stats.students }}</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stat-card stat-accent">
+        <div class="card-body">
+          <span class="stat-icon"><i class="bi bi-building"></i></span>
+          <div class="stat-value">{{ stats.companies }}</div>
+          <div class="stat-label">Companies</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stat-card stat-success">
+        <div class="card-body">
+          <span class="stat-icon"><i class="bi bi-briefcase"></i></span>
+          <div class="stat-value">{{ stats.drives }}</div>
+          <div class="stat-label">Placement Drives</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stat-card stat-warn">
+        <div class="card-body">
+          <span class="stat-icon"><i class="bi bi-file-earmark-person"></i></span>
+          <div class="stat-value">{{ stats.applications }}</div>
+          <div class="stat-label">Applications</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="row g-3 mb-4">
+    <div class="col-12">
+      <h5 class="fw-600 mb-3" style="color:var(--text-secondary);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">Quick Actions</h5>
+    </div>
+    {% for href, icon, label, color in [
+      (url_for('admin_students'),'people','Manage Students','primary'),
+      (url_for('admin_companies'),'building','Manage Companies','accent'),
+      (url_for('admin_drives'),'briefcase','Manage Drives','success'),
+      (url_for('admin_applications'),'file-earmark-text','View Applications','warn')
+    ] %}
+    <div class="col-6 col-md-3">
+      <a href="{{ href }}" class="card text-decoration-none text-center p-3 d-block stat-{{ color }}"
+         style="border-radius:var(--radius)!important;">
+        <i class="bi bi-{{ icon }}" style="font-size:1.6rem;"></i>
+        <div class="mt-1 fw-600" style="font-size:0.85rem;">{{ label }}</div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row g-4">
+    <!-- Recent Students -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-people me-2"></i>Recent Students</span>
+          <a href="{{ url_for('admin_students') }}" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+          {% if students %}
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead>
+              <tbody>
+                {% for s in students %}
+                <tr>
+                  <td class="fw-500">{{ s.name }}</td>
+                  <td style="color:var(--text-secondary);font-size:0.85rem;">{{ s.email }}</td>
+                  <td><span class="badge badge-approved">Active</span></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state"><div class="empty-icon"><i class="bi bi-people"></i></div>No students yet</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Companies -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-building me-2"></i>Recent Companies</span>
+          <a href="{{ url_for('admin_companies') }}" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+          {% if companies %}
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead><tr><th>Company</th><th>Email</th><th>Status</th></tr></thead>
+              <tbody>
+                {% for c in companies %}
+                <tr>
+                  <td class="fw-500">{{ c.name }}</td>
+                  <td style="color:var(--text-secondary);font-size:0.85rem;">{{ c.email }}</td>
+                  <td>
+                    {% if c.is_approved %}
+                      <span class="badge badge-approved">Approved</span>
+                    {% else %}
+                      <span class="badge badge-pending">Pending</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state"><div class="empty-icon"><i class="bi bi-building"></i></div>No companies yet</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Drives -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-briefcase me-2"></i>Recent Drives</span>
+          <a href="{{ url_for('admin_drives') }}" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+          {% if drives %}
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead><tr><th>Job Title</th><th>Company</th><th>Status</th></tr></thead>
+              <tbody>
+                {% for d in drives %}
+                <tr>
+                  <td class="fw-500">{{ d.job_title }}</td>
+                  <td style="color:var(--text-secondary);font-size:0.85rem;">{{ d.company_name }}</td>
+                  <td>
+                    <span class="badge badge-{{ d.status|lower }}">{{ d.status }}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state"><div class="empty-icon"><i class="bi bi-briefcase"></i></div>No drives yet</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Applications -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-file-earmark-text me-2"></i>Recent Applications</span>
+          <a href="{{ url_for('admin_applications') }}" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        <div class="card-body p-0">
+          {% if applications %}
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead><tr><th>Student</th><th>Drive</th><th>Status</th></tr></thead>
+              <tbody>
+                {% for a in applications %}
+                <tr>
+                  <td class="fw-500">{{ a.student_name }}</td>
+                  <td style="color:var(--text-secondary);font-size:0.85rem;">{{ a.job_title }}</td>
+                  <td>
+                    <span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state"><div class="empty-icon"><i class="bi bi-file-earmark-text"></i></div>No applications yet</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

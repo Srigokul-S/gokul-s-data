@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Applicants — {{ drive.job_title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-people me-2"></i>Drive Applicants</h1>
+    <p class="mb-0 opacity-75">{{ drive.job_title }} — {{ applications|length }} applicant(s)</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <!-- Drive summary -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-8">
+          <h5 class="fw-700 mb-1">{{ drive.job_title }}</h5>
+          <div class="d-flex gap-3 flex-wrap" style="font-size:0.85rem;color:var(--text-secondary);">
+            <span><i class="bi bi-calendar me-1"></i>Deadline: {{ drive.deadline }}</span>
+            <span><span class="badge badge-{{ drive.status|lower }}">{{ drive.status }}</span></span>
+          </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <a href="{{ url_for('company_dashboard') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <i class="bi bi-file-earmark-person me-2"></i>Applications
+      <span class="badge badge-approved ms-2">{{ applications|length }}</span>
+    </div>
+    <div class="card-body p-0">
+      {% if applications %}
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr><th>Student</th><th>Email</th><th>Phone</th><th>Resume</th><th>Applied On</th><th>Status</th><th>Update Status</th></tr>
+          </thead>
+          <tbody>
+            {% for a in applications %}
+            <tr>
+              <td class="fw-600">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="avatar avatar-primary" style="width:32px;height:32px;font-size:0.8rem;">
+                    {{ a.student_name[0].upper() }}
+                  </div>
+                  {{ a.student_name }}
+                </div>
+              </td>
+              <td style="color:var(--text-secondary);font-size:0.83rem;">{{ a.student_email }}</td>
+              <td style="color:var(--text-secondary);">{{ a.phone or '—' }}</td>
+              <td>
+                {% if a.resume_filename %}
+                  <a href="{{ url_for('static', filename='uploads/' + a.resume_filename) }}"
+                     target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>View
+                  </a>
+                {% else %}<span style="color:var(--text-secondary);">None</span>{% endif %}
+              </td>
+              <td style="color:var(--text-secondary);font-size:0.82rem;">{{ a.applied_date[:10] }}</td>
+              <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+              <td>
+                <form method="POST" action="{{ url_for('company_update_application', aid=a.id) }}"
+                      class="d-flex gap-1">
+                  <select name="status" class="form-select form-select-sm" style="min-width:130px;">
+                    {% for s in ['Applied','Shortlisted','Selected','Rejected'] %}
+                    <option value="{{ s }}" {% if a.status == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon"><i class="bi bi-people"></i></div>
+        <p>No students have applied to this drive yet.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
