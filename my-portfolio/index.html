@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srivarsan K V - E-Portfolio</title>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .linkedin-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background: #0077b5;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 119, 181, 0.3);
+        }
+        .linkedin-btn:hover {
+            background: #00a0dc;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 119, 181, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CSS animated background -->
+    <div class="background-animation">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            
+            <!-- Slide 1: Home/Info -->
+            <div class="swiper-slide">
+                <div class="glass-card">
+                    <h1 class="gradient-text">Hello, I'm <br>SRIVARSAN K V</h1>
+                    <p class="subtitle">CSE B Section | SRMIST Trichy</p>
+                    <div class="content-box">
+                        <p>I am a passionate student interested in <strong>software developing</strong> and building modern, scalable applications. Welcome to my personal e-portfolio. I am currently pursuing my degree in SRM Institute of Science and Technology in my class CSE B section.</p>
+                        <p>I am currently interested in creating my own websites and software developing in front end and training for that as a <strong>vibecoder</strong>.</p>
+                        <a href="https://www.linkedin.com/in/srivarsan-k-v-8a4b8637b?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="linkedin-btn">
+                            Connect on LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Certificates -->
+            <div class="swiper-slide">
+                <div class="glass-card">
+                    <h2 class="gradient-text">Certificates</h2>
+                    <p class="subtitle">My Professional Achievements</p>
+                    <div class="certificates-grid">
+                        <a href="assets/certificates/certificate.pdf" target="_blank" class="cert-item">
+                            <div class="cert-icon">🎓</div>
+                            <p>Course Certificate</p>
+                        </a>
+                        <a href="assets/certificates/IBMDesign20260325-32-rfjink.pdf" target="_blank" class="cert-item">
+                            <div class="cert-icon">🛠️</div>
+                            <p>IBM Design Certificate</p>
+                        </a>
+                        <a href="assets/certificates/matlab curve fitting onramp.pdf" target="_blank" class="cert-item">
+                            <div class="cert-icon">📊</div>
+                            <p>MATLAB Curve Fitting</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Internship -->
+            <div class="swiper-slide">
+                <div class="glass-card">
+                    <h2 class="gradient-text">Internship Info</h2>
+                    <p class="subtitle">My Journey & Goals</p>
+                    <div class="content-box">
+                        <p>Currently <strong>waiting for a summer student internship</strong>.</p>
+                        <p>I am actively developing my skills and working on personal projects to prepare for further future internships.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Certifications -->
+            <div class="swiper-slide">
+                <div class="glass-card">
+                    <h2 class="gradient-text">Other Certifications</h2>
+                    <div class="content-box empty-state">
+                        <div class="empty-icon">⏳</div>
+                        <p>No current certifications.</p>
+                        <p class="small-text">Working hard to add some soon!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Swiper Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
